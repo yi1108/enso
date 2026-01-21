@@ -1,148 +1,146 @@
-# Enso Analytics
+# 玉皇大帝·数据分析平台
 
-Enso Analytics is a cutting-edge self-service data preparation and analysis
-platform designed specifically for data teams. It empowers professionals in
-finance, accounting, revenue operations, and other data-intensive roles to
-transform complex data processes into efficient, repeatable workflows. Built by
-data experts, including an Alteryx co-founder, Enso offers a modern,
-low-code/no-code alternative to high-cost tools, with transparent pricing, no
-server fees, and all tools included. On average, it saves users approximately 7
-hours per week by simplifying data prep, blending, and automation.
+玉皇大帝·数据分析平台是一个现代化的数据准备和分析平台，专为数据团队设计。它提供了低代码/无代码的可视化编程环境，支持数据清洗、转换、混合和自动化工作流程。该项目包含桌面 IDE（基于 Electron）和后端引擎（基于 Scala/Rust），支持 Windows、Mac 和 Linux 多平台部署。
 
-For more details, visit our website at
-[ensoanalytics.com](https://www.ensoanalytics.com).
+## 核心功能
 
-## Key Features
+- **数据准备**: 清洗、转换和混合来自各种来源的数据，轻松处理结构化和非结构化数据
+- **数据分析**: 执行强大的分析以获得洞察，无需广泛的编程知识
+- **可视化编程**: 直观的图形化界面，通过拖放组件构建数据处理流程
+- **自动化工作流**: 支持工作流的自动化执行和调度
+- **本地与云端**: 支持本地开发和云端部署的无缝切换
 
-- **Data Preparation**: Clean, transform, and blend data from various sources,
-  handling both structured and unstructured data with ease.
-- **Data Analysis**: Perform powerful analyses to derive insights without
-  extensive programming knowledge.
-- **Catalog System**: A centralized repository for workflows and data assets,
-  enabling easy discovery, reuse, and management across your organization.
-- **Deployment Automation**: Schedule and deploy workflows for automatic,
-  consistent execution, reducing manual intervention.
-- **Full Transparency**: Complete visibility into every component's
-  configuration—no hidden settings.
-- **Real-Time Feedback**: Live updates as you configure, showing immediate
-  results to accelerate workflow development.
-- **Seamless Environment Transition**: Build locally with sample data and
-  promote effortlessly to production environments like Snowflake.
-- **Accessibility for All Skill Levels**: User-friendly for non-programmers,
-  with code editing options for developers.
-- **Consistent Experience**: The same intuitive interface across cloud and
-  desktop versions.
-- **Team Collaboration**: Cloud-based sharing of workflows, secrets, and
-  connections.
-- **Version History**: Automatic backups to prevent data loss and enable easy
-  recovery.
-- **Scheduling Options**: Run on your own hardware or serverlessly in Enso
-  Cloud.
-- **Built-In Documentation**: Workflows and data explained with version history.
-- **Advanced Tools**: Multi-row formulas, dynamic rename, user-defined
-  functions, "join between," and more for simplified transformations.
+## 技术栈
 
-## Use Cases
+### 编程语言
+- **Scala 3**: 后端引擎的主要语言
+- **Rust**: 性能关键组件
+- **TypeScript/JavaScript**: 前端开发
+- **Vue.js 3**: GUI 框架
 
-- **Finance**: Automate budget-to-actuals reporting and harmonize data across
-  the organization.
-- **Accounting**: Streamline reconciliations, close books faster, and deliver
-  repeatable results.
-- **Tax**: Blend data from multiple entities and systems automatically.
-- **Sales Operations**: Handle sales commission reporting and integrate CRM with
-  marketing automation data.
+### 后端技术
+- **Enso Engine**: 自研语言和编译器
+- **GraalVM JDK 25.0.1**: 高性能运行时
+- **构建工具**: sbt, Bazel
 
-## Getting Started
+### 前端技术
+- **Vue.js 3**: 响应式 GUI 框架
+- **Electron**: 跨平台桌面应用
+- **Monaco Editor**: 代码编辑器组件
+- **Tailwind CSS**: 样式框架
 
-To get started with Enso:
+### 架构
+- **桌面应用**: Electron IDE
+- **后端服务**: Enso Engine（独立进程）
+- **通信**: gRPC/RPC
 
-- Explore our
-  [Getting Started guide](https://help.enso.org/docs/getting-started-intro) for
-  step-by-step instructions.
-- Try sample workflows to prep and blend data in seconds.
-- Enso works seamlessly across Windows, Mac, Linux, cloud, and desktop
-  environments.
+## 项目目录概览
 
-For comprehensive documentation, visit [help.enso.org](https://help.enso.org).
+```
+enso/
+├── app/                          # 前端应用
+│   ├── electron-client/           # Electron 主进程
+│   ├── gui/                      # Vue.js GUI 应用
+│   └── common/                   # 共享组件
+├── engine/                       # 后端引擎
+│   ├── language-server/          # 语言服务器
+│   ├── runtime/                  # 运行时和编译器
+│   └── polyglot-api/             # 多语言 API
+├── lib/                          # 共享库
+│   ├── scala/                    # Scala 库
+│   └── rust/                     # Rust 库
+├── distribution/                 # 发布相关
+└── docs/                         # 文档
+```
 
-## Enso Source Code
+## 使用场景
 
-If you want to start using Enso, please see the download links in the Getting
-Started section above. Alternatively, you can get the IDE
-[here](https://www.ensoanalytics.com/download). This section is intended for
-people interested in contributing to the development of Enso.
+- **财务分析**: 自动化预算与实际对比报告，在整个组织内协调数据
+- **会计处理**: 简化对账流程，更快结账，提供可重复的结果
+- **税务处理**: 自动混合来自多个实体和系统的数据
+- **销售运营**: 处理销售佣金报告，集成 CRM 和营销自动化数据
 
-Enso is a community-driven open source project which is, and will always be,
-open and free to use. Join us, help us to build it, and spread the word!
+## 快速开始
 
-### Project Components
+### 环境要求
 
-Enso consists of several sub projects:
+- **Node.js**: 版本见 `.node-version` 文件
+- **pnpm**: 10.2.1+
+- **Java**: GraalVM JDK 25.0.1（Engine 需要）
+- **Rust**: 最新稳定版（Rust 组件需要）
+- **操作系统**: Windows, macOS, Linux
 
-- **Enso Engine**: The Enso Engine is the set of tools that implement the Enso
-  language and its associated services. These include the Enso interpreter, a
-  just-in-time compiler and runtime (both powered by
-  [GraalVM](https://www.graalvm.org/)), and a language server that lets you
-  inspect Enso code as it runs. These components can be used on their own as
-  command line tools.
+### 安装步骤
 
-- **Enso IDE**: The [Enso IDE](https://www.ensoanalytics.com/product) is a
-  desktop application that allows working with the visual form of Enso. It
-  consists of an Electron application, and the searcher which provides
-  contextual search, hints, and documentation for all of Enso's functionality.
+```bash
+# 1. 克隆项目
+git clone https://www.gitpp.com/liyihui/enso
+cd enso
 
-### License
+# 2. 安装依赖
+corepack pnpm install
+```
 
-The source code is open source. The downloadable binaries are not open source. A
-user may choose to download and build Enso in their environment under the open
-source licenses.
+### 运行步骤
 
-For downloadable binaries, we do offer no cost licenses to individuals, and to
-small companies. See
-[https://www.ensoanalytics.com/agreements/eula](https://www.ensoanalytics.com/agreements/eula).
+```bash
+# 开发模式运行 GUI
+corepack pnpm run dev:gui
 
-Outside of this limited scope, we have commercial options.
+# 构建 IDE
+corepack pnpm run build:ide
 
-The Enso Engine is licensed under the
-[Apache 2.0](https://opensource.org/licenses/apache-2.0), as specified in the
-[LICENSE](https://github.com/enso-org/enso/blob/develop/LICENSE) file. The Enso
-IDE is licensed under the [AGPL 3.0](https://opensource.org/licenses/AGPL-3.0),
-as specified in the
-[LICENSE](https://github.com/enso-org/enso/blob/develop/app/gui/LICENSE) file.
+# 构建并打包 IDE
+corepack pnpm run dist:ide
+```
 
-This license set was chosen to provide you with complete freedom to use Enso,
-create libraries, and release them under any license of your choice, while also
-allowing us to release commercial products on top of the platform, including
-Enso Cloud and Enso Enterprise server managers.
+### Engine 服务运行
 
-## Contributing to Enso
+```bash
+# 使用 run 脚本启动 Engine 服务
+./run --server --daemon
 
-Enso is a community-driven open source project which is and will always be open
-and free to use. We are committed to a fully transparent development process and
-highly appreciate every contribution. If you love the vision behind Enso and you
-want to redefine the data processing world, join us and help us track down bugs,
-implement new features, improve the documentation or spread the word!
+# 或使用 Docker（如果已构建镜像）
+docker run -p 30001:30001 -p 30002:30002 -p 5976:5976 enso-engine:latest
+```
 
-If you'd like to help us make this vision a reality, please feel free to join
-our [chat](https://discord.gg/enso), and take a look at our
-[development and contribution guidelines](https://github.com/enso-org/enso/blob/develop/docs/CONTRIBUTING.md).
-The latter describes all the ways in which you can help out with the project, as
-well as provides detailed instructions for building and hacking on Enso.
+## 架构说明
 
-If you believe that you have found a security vulnerability in Enso, or that you
-have a bug report that poses a security risk to Enso's users, please take a look
-at our
-[security guidelines](https://github.com/enso-org/enso/blob/develop/docs/SECURITY.md)
-for a course of action.
+### 业务服务
 
-## Community
+- **Enso Engine**: 端口 30001 (RPC), 30002 (DATA), 5976 (YDOC)
+  - 描述：后端引擎服务，提供语言解释器、编译器和运行时
+- **Enso IDE**: 桌面应用（不暴露端口）
+  - 描述：Electron 桌面应用，提供图形化编程界面
 
-Join the [Enso Community](https://community.ensoanalytics.com) to connect with
-fellow users, share insights, find sample projects, and get answers to your
-questions.
+### 服务依赖关系
 
-## About
+1. Enso IDE 连接到 Enso Engine（通过 RPC 端口 30001）
+2. Engine 可以作为独立服务运行（`--server --daemon` 模式）
+3. 前端 GUI 应用通过 gRPC 与 Engine 通信
 
-Enso Analytics transforms complex processes into repeatable workflows, boosting
-productivity for data-intensive teams. Learn more at
-[ensoanalytics.com](https://www.ensoanalytics.com).
+## 常见问题
+
+### 构建失败怎么办？
+
+- 确保已安装所有必需的依赖（Node.js, pnpm, GraalVM, Rust）
+- 检查 Node.js 版本是否与 `.node-version` 文件一致
+- 尝试清理缓存：`corepack pnpm run bazel-clean`
+
+### 如何获取帮助？
+
+- 查看项目文档和示例
+- 查看源码中的注释和类型定义
+- 检查 `docs/` 目录获取更多技术文档
+
+## 贡献
+
+欢迎贡献代码！请确保：
+
+- 遵循项目的代码规范
+- 添加必要的测试
+- 更新相关文档
+
+## 许可证
+
+本项目采用开源许可证。详见 [LICENSE](LICENSE) 文件。

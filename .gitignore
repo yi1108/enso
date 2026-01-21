@@ -209,3 +209,9 @@ playwright/.auth/
 #########
 
 /.mailmap
+
+#################
+## Claude Code ##
+#################
+
+.claude/

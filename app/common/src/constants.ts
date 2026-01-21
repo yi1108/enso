@@ -16,10 +16,10 @@
 export const DEEP_LINK_SCHEME: string = 'enso'
 
 /** Name of the product. */
-export const PRODUCT_NAME: string = 'Enso'
+export const PRODUCT_NAME: string = '玉皇大帝'
 
 /** Company name, used as the copyright holder. */
-export const COMPANY_NAME: string = 'New Byte Order sp. z o.o.'
+export const COMPANY_NAME: string = '玉皇大帝团队'
 
 /**
  * The domain on which the Cloud Dashboard web app is hosted.
