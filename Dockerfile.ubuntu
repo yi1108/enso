@@ -1,0 +1,80 @@
+# Enso Builder Dockerfile (基于 Ubuntu)
+# 这个 Dockerfile 使用 Ubuntu 作为基础镜像，手动安装 GraalVM 和所有构建工具
+# 用法:
+#   1. docker build -t enso-builder -f Dockerfile.ubuntu .
+#   2. docker run -it --rm -v ${PWD}:/enso -w /enso enso-builder bash
+
+FROM ubuntu:22.04 AS base
+
+# 避免交互式提示
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Shanghai
+
+# 安装基础工具
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    git \
+    tar \
+    gzip \
+    unzip \
+    build-essential \
+    python3 \
+    python3-pip \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# 安装 JDK 11 (GraalVM 依赖)
+RUN apt-get update && apt-get install -y openjdk-11-jdk && \
+    rm -rf /var/lib/apt/lists/*
+
+# 设置 JAVA_HOME
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
+# 安装 Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# 安装 Node.js 22.x
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g corepack && \
+    corepack enable && \
+    corepack prepare pnpm@10.2.1 --activate
+
+# 安装 GraalVM
+WORKDIR /opt
+RUN wget https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-25.0.1/graalvm-ce-java21-linux-amd64-25.0.1.tar.gz && \
+    tar -xzf graalvm-ce-java21-linux-amd64-25.0.1.tar.gz && \
+    mv graalvm-ce-java21-25.0.1 graalvm && \
+    rm graalvm-ce-java21-linux-amd64-25.0.1.tar.gz
+
+# 设置 GraalVM 环境变量
+ENV GRAALVM_HOME=/opt/graalvm
+ENV PATH="${GRAALVM_HOME}/bin:${PATH}"
+RUN gu install native-image
+
+# 安装 Bazelisk
+RUN curl -Lo /usr/local/bin/bazel https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64 && \
+    chmod +x /usr/local/bin/bazel
+
+# 创建工作目录
+WORKDIR /enso
+
+# 设置 Enso 环境变量
+ENV ENSO_LAUNCHER=native
+
+# 验证工具安装
+RUN echo "=== 验证工具安装 ===" && \
+    echo "Java: $(java -version 2>&1 | head -1)" && \
+    echo "Node: $(node --version)" && \
+    echo "pnpm: $(pnpm --version)" && \
+    echo "Rust: $(rustc --version)" && \
+    echo "Cargo: $(cargo --version)" && \
+    echo "Bazel: $(bazel --version)" && \
+    echo "GraalVM: $(gu --version)" && \
+    echo "=== 工具安装完成 ==="
+
+# 默认命令
+CMD ["/bin/bash"]
