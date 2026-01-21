@@ -1,0 +1,27 @@
+# Docker Compose for Building Enso
+# 用于构建 Enso 项目的 Docker Compose 配置
+# 用法: docker-compose -f docker-compose.build.yml run --rm build
+
+version: '3.8'
+
+services:
+  build:
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+    container_name: enso-builder
+    volumes:
+      # 挂载项目目录（用于开发）
+      - .:/enso
+      # 挂载构建输出
+      - enso-dist:/enso/dist
+    environment:
+      - JAVA_HOME=/opt/java
+      - ENSO_LAUNCHER=native
+    working_dir: /enso
+    # 保持容器运行
+    stdin_open: true
+    tty: true
+
+volumes:
+  enso-dist:
